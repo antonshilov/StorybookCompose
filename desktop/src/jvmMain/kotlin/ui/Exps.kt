@@ -7,7 +7,9 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,17 +19,17 @@ import org.jetbrains.compose.splitpane.rememberSplitPaneState
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
-fun StoryPreview(storyG: StoryG) {
+fun StoryPreview(story: Story) {
     val state = rememberSplitPaneState(initialPositionPercentage = 1f)
 
     VerticalSplitPane(splitPaneState = state) {
         first(300.dp) {
             Box(Modifier.fillMaxSize()) {
-                storyG.ui(storyG, Modifier.align(Alignment.Center))
+                story.ui(story, Modifier.align(Alignment.Center))
             }
         }
         second(150.dp) {
-            ControlsAndActions(storyG)
+            ControlsAndActions(story)
         }
     }
 }
@@ -46,38 +48,25 @@ fun ControlItem(control: Control) {
 }
 
 @Composable
-fun ActionList(storyG: StoryG) {
-    LazyColumn(Modifier.height(200.dp)) {
-        items(storyG.actions) { item ->
+fun ActionList(actions: List<String>) {
+    LazyColumn(Modifier.fillMaxHeight()) {
+        items(actions) { item ->
             Text(item)
         }
     }
-
-}
-
-open class StoryG(
-    val group: String,
-    val label: String,
-    var ui: @Composable StoryG.(Modifier) -> Unit = {}
-) {
-    val ctr = mutableStateMapOf<String, Control>()
-    val controls = derivedStateOf { ctr.values }
-    val actions = mutableStateListOf<String>()
-
-    fun addControl(label: String, initialValue: String): Control =
-        ctr.getOrPut(label) { Control(label, initialValue) }
-
-    fun reportAction(action: String) {
-        actions.add(action)
-    }
-}
-
-class Control(val label: String, default: String) {
-    val value = mutableStateOf<String>(default)
 }
 
 @Composable
-fun ControlsAndActions(storyG: StoryG) {
+private fun Controls(controls: List<Control>) {
+    LazyColumn(Modifier.fillMaxHeight()) {
+        items(controls) {
+            ControlItem(it)
+        }
+    }
+}
+
+@Composable
+fun ControlsAndActions(story: Story) {
     val selectedTab = remember { mutableStateOf(0) }
 
     Column(Modifier.fillMaxWidth()) {
@@ -91,14 +80,10 @@ fun ControlsAndActions(storyG: StoryG) {
         }
         when (selectedTab.value) {
             0 -> {
-                Column {
-                    storyG.controls.value.forEach {
-                        ControlItem(it)
-                    }
-                }
+                Controls(story.controls.value)
             }
             1 -> {
-                ActionList(storyG)
+                ActionList(story.actions)
             }
         }
     }

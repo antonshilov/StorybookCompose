@@ -17,12 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Components(groups: List<Group>, selectedLabel: String, onStoryClicked: (Story) -> Unit) {
+fun GroupList(storybook: Storybook, selected: MutableState<Story>) {
     LazyColumn {
-        groups.forEach { group ->
-            item(group.label) { GroupItem(group.label) }
-            group.items.forEach { story ->
-                item(story) { StoryItem(story.label, story.label == selectedLabel) { onStoryClicked(story) } }
+        storybook.groups.forEach { group ->
+            item(group) { GroupItem(group.label) }
+            group.stories.forEach { story ->
+                item(story.label + group.label) {
+                    StoryItem(story.label, story == selected.value) {
+                        selected.value = story
+                    }
+                }
             }
         }
     }
@@ -92,6 +96,3 @@ fun Modifier.hoverBackground(): Modifier =
                 }
             )
     }
-
-data class Group(val label: String, val items: List<Story>)
-data class Story(val label: String)
