@@ -3,10 +3,7 @@ package ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,12 +32,25 @@ fun StoryPreview(story: Story) {
 }
 
 @Composable
-fun ControlItem(control: Control) {
+fun ControlItem(control: StringControl) {
     Column {
         Text(control.label)
         TextField(
             value = control.value.value,
             onValueChange = {
+                control.value.value = it
+            }
+        )
+    }
+}
+
+@Composable
+fun ControlItem(control: BooleanControl) {
+    Column {
+        Text(control.label)
+        Checkbox(
+            checked = control.value.value,
+            onCheckedChange = {
                 control.value.value = it
             }
         )
@@ -57,10 +67,13 @@ fun ActionList(actions: List<String>) {
 }
 
 @Composable
-private fun Controls(controls: List<Control>) {
+private fun Controls(controls: List<ControlType>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         items(controls) {
-            ControlItem(it)
+            when (it) {
+                is StringControl -> ControlItem(it)
+                is BooleanControl -> ControlItem(it)
+            }
         }
     }
 }

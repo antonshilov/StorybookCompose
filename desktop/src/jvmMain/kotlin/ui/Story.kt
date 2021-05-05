@@ -8,21 +8,44 @@ open class Story(
     val label: String,
     var ui: @Composable Story.(Modifier) -> Unit = {}
 ) {
-    val ctr = mutableStateMapOf<String, Control>()
+    val ctr = mutableStateMapOf<String, Control<*>>()
     val controls = derivedStateOf { ctr.values.toList() }
     val actions = mutableStateListOf<String>()
 
-    fun addControl(label: String, initialValue: String): Control =
-        ctr.getOrPut(label) { Control(label, initialValue) }
+    fun addControl(label: String, initialValue: String): StringControl {
+        val existingControl = ctr[label]
+        return if (existingControl != null && existingControl is StringControl) {
+            existingControl
+        } else {
+            val key = StringControl(label, initialValue)
+            ctr[label] = key
+            key
+        }
+    }
+
+    fun addControl(label: String, initialValue: Boolean): BooleanControl {
+        val existingControl = ctr[label]
+        return if (existingControl != null && existingControl is BooleanControl) {
+            existingControl
+        } else {
+            val key = BooleanControl(label, initialValue)
+            ctr[label] = key
+            key
+        }
+    }
 
     fun reportAction(action: String) {
         actions.add(action)
     }
 }
 
-class Control(val label: String, default: String) {
-    val value = mutableStateOf<String>(default)
+abstract class Control<T>(val label: String, initialValue: T) {
+    val value = mutableStateOf<T>(initialValue)
 }
+typealias ControlType = Control<*>
+
+class StringControl(label: String, initialValue: String) : Control<String>(label, initialValue)
+class BooleanControl(label: String, initialValue: Boolean) : Control<Boolean>(label, initialValue)
 
 fun storybook(block: Storybook.() -> Unit): Storybook {
     val storybook = Storybook()

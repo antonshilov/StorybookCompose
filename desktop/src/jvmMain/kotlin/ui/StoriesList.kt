@@ -67,9 +67,7 @@ fun StoryItem(label: String, isSelected: Boolean, onClick: () -> Unit) {
             .clickable(onClick = onClick)
             .background(if (isSelected) Color.Blue.copy(alpha = 0.2f) else Color.Transparent)
             .hoverBackground()
-            .padding(
-                vertical = 2.dp
-            )
+            .padding(vertical = 2.dp)
             .padding(start = 12.dp, end = 4.dp)
     )
 }

@@ -20,7 +20,12 @@ fun Panes() {
         group("Button") {
             story("Enabled") {
                 val buttonText = remember { addControl("Button Text", "Enabled") }
-                Button({ reportAction("Click") }, it) {
+                val isEnabled = remember { addControl("Enabled", false) }
+                Button(
+                    onClick = { reportAction("Click") },
+                    modifier = it,
+                    enabled = isEnabled.value.value
+                ) {
                     Text(buttonText.value.value)
                 }
             }
