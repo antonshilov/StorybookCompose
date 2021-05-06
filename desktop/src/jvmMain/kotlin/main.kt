@@ -1,12 +1,16 @@
 import androidx.compose.desktop.DesktopMaterialTheme
 import androidx.compose.desktop.Window
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import model.controls.BooleanControl.Companion.rememberBooleanControl
+import model.controls.ColorControl.Companion.rememberColorControl
+import model.controls.StringControl.Companion.rememberStringControl
+import model.storybook
 import ui.Storybook
-import ui.storybook
+
 
 fun main() = Window {
     DesktopMaterialTheme {
@@ -19,14 +23,16 @@ fun Panes() {
     val storyBook = storybook {
         group("Button") {
             story("Enabled") {
-                val buttonText = remember { addControl("Button Text", "Enabled") }
-                val isEnabled = remember { addControl("Enabled", false) }
+                val buttonText = rememberStringControl("Button Text", "Enabled")
+                val isEnabled = rememberBooleanControl("Enabled", false)
+                val backgroundColor = rememberColorControl("Background color", MaterialTheme.colors.primary)
                 Button(
                     onClick = { reportAction("Click") },
                     modifier = it,
-                    enabled = isEnabled.value.value
+                    enabled = isEnabled.value,
+                    colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor.value)
                 ) {
-                    Text(buttonText.value.value)
+                    Text(buttonText.value)
                 }
             }
             story("Disabled") {

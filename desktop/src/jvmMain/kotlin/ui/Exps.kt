@@ -3,13 +3,20 @@ package ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.ControlType
+import model.Story
+import model.controls.BooleanControl
+import model.controls.ColorControl
+import model.controls.StringControl
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
@@ -32,32 +39,6 @@ fun StoryPreview(story: Story) {
 }
 
 @Composable
-fun ControlItem(control: StringControl) {
-    Column {
-        Text(control.label)
-        TextField(
-            value = control.value.value,
-            onValueChange = {
-                control.value.value = it
-            }
-        )
-    }
-}
-
-@Composable
-fun ControlItem(control: BooleanControl) {
-    Column {
-        Text(control.label)
-        Checkbox(
-            checked = control.value.value,
-            onCheckedChange = {
-                control.value.value = it
-            }
-        )
-    }
-}
-
-@Composable
 fun ActionList(actions: List<String>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         items(actions) { item ->
@@ -71,8 +52,9 @@ private fun Controls(controls: List<ControlType>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         items(controls) {
             when (it) {
-                is StringControl -> ControlItem(it)
-                is BooleanControl -> ControlItem(it)
+                is StringControl -> it.ui()
+                is BooleanControl -> it.ui()
+                is ColorControl -> it.ui()
             }
         }
     }
