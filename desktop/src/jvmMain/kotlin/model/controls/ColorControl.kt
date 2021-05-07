@@ -20,11 +20,11 @@ import model.Story
 class ColorControl(label: String, initialValue: Color) : Control<Color>(label, initialValue) {
     @Composable
     override fun ui() {
-        val colorText = remember { mutableStateOf("") }
+        val colorText = remember { mutableStateOf(value.toHexString()) }
         Column {
             Text(label)
             Row {
-                Box(Modifier.size(8.dp).background(value, CircleShape))
+                Box(Modifier.size(24.dp).background(value, CircleShape))
                 TextField(
                     colorText.value,
                     onValueChange = {
@@ -42,15 +42,26 @@ class ColorControl(label: String, initialValue: Color) : Control<Color>(label, i
         val colorString = this
         return if (colorString.isNotBlank() && colorString[0] == '#') {
             // Use a long to avoid rollovers on #ffXXXXXX
-            var color = colorString.substring(1).toLong(16)
+            var color = colorString.substring(1).toLongOrNull(16) ?: return null
             if (colorString.length == 7) {
                 // Set the alpha value
                 color = color or -0x1000000
-            } else if (colorString.length == 9) {
+            } else if (colorString.length != 9) {
                 return null
             }
             Color(color)
         } else null
+    }
+
+    private fun Color.toHexString(): String {
+        return "#${alpha.toHex()}${red.toHex()}${green.toHex()}${blue.toHex()}"
+    }
+
+    private fun Float.toHex(): String {
+        val int = (this * 255f).toInt()
+        return if (int > 9) {
+            int.toString(16)
+        } else "0${int.toString(16)}"
     }
 
     companion object {
