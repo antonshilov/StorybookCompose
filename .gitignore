@@ -39,3 +39,4 @@ build/
 /captures
 .externalNativeBuild
 .cxx
+/.gradle/
