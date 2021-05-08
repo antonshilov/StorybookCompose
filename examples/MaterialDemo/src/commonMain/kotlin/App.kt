@@ -23,7 +23,7 @@ private val storyBook = storybook {
     group("Button") {
         story("Enabled") {
             val buttonText = rememberStringControl("Button Text", "Enabled")
-            val isEnabled = rememberBooleanControl("Enabled", false)
+            val isEnabled = rememberBooleanControl("Enabled", true)
             val backgroundColor = rememberColorControl("Background color", MaterialTheme.colors.primary)
             Button(
                 onClick = { reportAction("Click") },
