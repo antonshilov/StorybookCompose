@@ -8,11 +8,8 @@ pluginManagement {
     }
     
 }
-rootProject.name = "untitled"
+rootProject.name = "StorybookCompose"
 
-
-include(":android")
-include(":desktop")
 include(":common")
 include("SplitPane:common")
 include(":examples:MaterialDemo")
