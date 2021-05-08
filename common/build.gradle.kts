@@ -43,7 +43,7 @@ kotlin {
         }
         val desktopMain by getting{
             dependencies{
-                implementation(project(":SplitPane:common"))
+                implementation(project(":utils:SplitPane"))
             }
         }
         val desktopTest by getting
