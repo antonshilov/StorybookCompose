@@ -10,6 +10,6 @@ pluginManagement {
 }
 rootProject.name = "StorybookCompose"
 
-include(":common")
+include(":storybook")
 include(":utils:SplitPane")
 include(":examples:MaterialDemo")

@@ -12,7 +12,7 @@ version = "0.1"
 
 kotlin {
     android()
-    jvm {
+    jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
@@ -20,13 +20,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common"))
+                implementation(project(":storybook"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
             }
         }
-        val jvmMain by getting {
+        val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
             }
