@@ -41,7 +41,11 @@ kotlin {
                 implementation("junit:junit:4.13")
             }
         }
-        val desktopMain by getting
+        val desktopMain by getting{
+            dependencies{
+                implementation(project(":SplitPane:common"))
+            }
+        }
         val desktopTest by getting
     }
 }

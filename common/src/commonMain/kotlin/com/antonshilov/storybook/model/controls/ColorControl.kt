@@ -1,4 +1,4 @@
-package model.controls
+package com.antonshilov.storybook.model.controls
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import model.Control
-import model.Story
+import com.antonshilov.storybook.model.Control
+import com.antonshilov.storybook.model.Story
 
 class ColorControl(label: String, initialValue: Color) : Control<Color>(label, initialValue) {
     @Composable

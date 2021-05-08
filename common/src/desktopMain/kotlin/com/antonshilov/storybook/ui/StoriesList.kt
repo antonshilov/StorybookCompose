@@ -1,4 +1,4 @@
-package ui
+package com.antonshilov.storybook.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,14 +15,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.Story
-import model.Storybook
+import com.antonshilov.storybook.model.Story
+import com.antonshilov.storybook.model.Storybook
 
 @Composable
 fun GroupList(storybook: Storybook, selected: MutableState<Story>) {
     LazyColumn {
         storybook.groups.forEach { group ->
-            item(group) { GroupItem(group.label) }
+            item(group.label) { GroupItem(group.label) }
+
             group.stories.forEach { story ->
                 item(story.label + group.label) {
                     StoryItem(story.label, story == selected.value) {

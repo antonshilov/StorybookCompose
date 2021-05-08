@@ -1,4 +1,4 @@
-package model
+package com.antonshilov.storybook.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

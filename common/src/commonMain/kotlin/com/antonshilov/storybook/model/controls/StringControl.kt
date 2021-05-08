@@ -1,12 +1,12 @@
-package model.controls
+package com.antonshilov.storybook.model.controls
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import model.Control
-import model.Story
+import com.antonshilov.storybook.model.Control
+import com.antonshilov.storybook.model.Story
 
 class StringControl(label: String, initialValue: String) : Control<String>(label, initialValue) {
     @Composable

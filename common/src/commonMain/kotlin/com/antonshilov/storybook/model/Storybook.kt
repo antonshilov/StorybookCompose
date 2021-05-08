@@ -1,4 +1,4 @@
-package model
+package com.antonshilov.storybook.model
 
 class Storybook {
     val groups: MutableList<StoryGroup> = mutableListOf()
