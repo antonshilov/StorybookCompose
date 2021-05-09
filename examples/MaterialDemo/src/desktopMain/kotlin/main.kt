@@ -3,7 +3,7 @@ import androidx.compose.desktop.Window
 import com.antonshilov.storybook.App
 
 
-fun main() = Window {
+fun main() = Window("Storybook") {
     DesktopMaterialTheme {
         App()
     }
