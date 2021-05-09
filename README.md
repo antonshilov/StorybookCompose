@@ -5,7 +5,8 @@ different states of each component, and interactively develop and test component
 Jetpack Compose and Kotlin multiplatform, so you can build UI library for Desktop and Android.
 
 <center>
-  <img src="media/demo_desktop.gif" width="50%" /><img src="media/demo_mobile.gif" width="20%" />
+  <img src="media/demo_desktop.gif" width="80%" />
+  <img src="media/demo_mobile.gif" width="20%" />
 </center>
 
 _Storybook Compose_ is heavily inspired by [Storybook.js](https://github.com/storybookjs/storybook)
