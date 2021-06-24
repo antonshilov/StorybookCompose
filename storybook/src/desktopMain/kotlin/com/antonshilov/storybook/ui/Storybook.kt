@@ -20,7 +20,7 @@ actual fun Storybook(storybook: Storybook) {
             GroupList(storybook, selected)
         }
         second(50.dp) {
-            StoryPreview(selected.value)
+            StoryPreview(selected.value, storybook.decorators)
         }
     }
 }

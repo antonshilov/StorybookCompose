@@ -2,6 +2,7 @@ package com.antonshilov.storybook.model
 
 class Storybook {
     val groups: MutableList<StoryGroup> = mutableListOf()
+    var decorators: List<Decorator> = listOf()
     fun group(label: String, block: StoryGroup.() -> Unit) {
         val group = StoryGroup(label)
         group.block()

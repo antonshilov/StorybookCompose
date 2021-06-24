@@ -1,8 +1,16 @@
 package com.antonshilov.storybook.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.Surface
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
@@ -11,8 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import com.antonshilov.storybook.model.ControlType
+import com.antonshilov.storybook.model.Decorator
 import com.antonshilov.storybook.model.Story
 import com.antonshilov.storybook.model.controls.BooleanControl
 import com.antonshilov.storybook.model.controls.ColorControl
@@ -23,13 +33,26 @@ import org.jetbrains.compose.splitpane.rememberSplitPaneState
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
-fun StoryPreview(story: Story) {
+fun StoryPreview(story: Story, decorators: List<Decorator>) {
     val state = rememberSplitPaneState(initialPositionPercentage = 1f)
 
     VerticalSplitPane(splitPaneState = state) {
         first(300.dp) {
-            Box(Modifier.fillMaxSize()) {
-                story.ui(story, Modifier.align(Alignment.Center))
+            Surface(
+                modifier = Modifier.clipToBounds().fillMaxSize()
+            ) {
+                Column {
+                    Row(Modifier.horizontalScroll(rememberScrollState())) {
+                        decorators.forEach { it.controlUi() }
+                    }
+                    Decorate(decorators) {
+                        Box(
+                            Modifier.fillMaxSize()
+                        ) {
+                            story.ui(story, Modifier.align(Alignment.Center))
+                        }
+                    }
+                }
             }
         }
         second(150.dp) {
@@ -82,4 +105,16 @@ fun ControlsAndActions(story: Story) {
             }
         }
     }
+}
+
+
+@Composable
+fun Decorate(decorators: List<Decorator>, content: @Composable () -> Unit) {
+    if (decorators.isNotEmpty())
+        ArrayDeque(decorators).apply {
+            val first = removeFirst()
+            first.decorate(this, content)
+        }
+    else
+        content()
 }
