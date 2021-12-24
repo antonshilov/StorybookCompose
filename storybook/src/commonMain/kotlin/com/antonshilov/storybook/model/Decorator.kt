@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 abstract class Decorator {
 
     @Composable
-    fun decorate(nextDecorators: ArrayDeque<Decorator>, content: @Composable () -> Unit) {
+    fun decorate(nextDecorators: List<Decorator>, content: @Composable () -> Unit) {
         if (nextDecorators.isNotEmpty()) {
             decorate {
-                nextDecorators.removeFirst().decorate(nextDecorators, content)
+                nextDecorators.first().decorate(nextDecorators.drop(1), content)
             }
         } else {
             decorate { content() }

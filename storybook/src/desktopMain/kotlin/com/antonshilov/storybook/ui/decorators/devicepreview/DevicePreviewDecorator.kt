@@ -1,4 +1,4 @@
-package com.antonshilov.storybook.ui.devicepreview
+package com.antonshilov.storybook.ui.decorators.devicepreview
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
@@ -67,7 +67,7 @@ class DevicePreviewDecorator(val devices: List<DeviceSpec>) : Decorator() {
 @Composable
 private fun Selector(selectedDevice: DeviceSpec, devices: List<DeviceSpec>, onSelect: (DeviceSpec) -> Unit) {
     val isVisible = remember { mutableStateOf(false) }
-    Text(selectedDevice.name, Modifier.clickable { isVisible.value = isVisible.value.not() })
+    Text("Device: ${selectedDevice.name}", Modifier.clickable { isVisible.value = isVisible.value.not() })
 
     DropdownMenu(
         expanded = isVisible.value,

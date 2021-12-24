@@ -1,4 +1,4 @@
-package com.antonshilov.storybook.ui.devicepreview
+package com.antonshilov.storybook.ui.decorators.devicepreview
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

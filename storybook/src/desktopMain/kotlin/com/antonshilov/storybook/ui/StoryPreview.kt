@@ -110,11 +110,9 @@ fun ControlsAndActions(story: Story) {
 
 @Composable
 fun Decorate(decorators: List<Decorator>, content: @Composable () -> Unit) {
-    if (decorators.isNotEmpty())
-        ArrayDeque(decorators).apply {
-            val first = removeFirst()
-            first.decorate(this, content)
-        }
-    else
+    if (decorators.isNotEmpty()) {
+        val first = decorators.first()
+        first.decorate(decorators.drop(1), content)
+    } else
         content()
 }
