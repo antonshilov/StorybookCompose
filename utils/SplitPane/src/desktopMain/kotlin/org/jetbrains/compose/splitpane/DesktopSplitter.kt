@@ -1,37 +1,27 @@
 package org.jetbrains.compose.splitpane
 
-import androidx.compose.desktop.LocalAppWindow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
 import java.awt.Cursor
 
-private fun Modifier.cursorForHorizontalResize(
-    isHorizontal: Boolean
-): Modifier = composed {
-    var isHover by remember { mutableStateOf(false) }
-
-    if (isHover) {
-        LocalAppWindow.current.window.cursor = Cursor(
-            if (isHorizontal) Cursor.E_RESIZE_CURSOR else Cursor.S_RESIZE_CURSOR
-        )
-    } else {
-        LocalAppWindow.current.window.cursor = Cursor.getDefaultCursor()
-    }
-    pointerMoveFilter(
-        onEnter = { isHover = true; true },
-        onExit = { isHover = false; true }
-    )
-}
+@OptIn(ExperimentalComposeUiApi::class)
+private fun Modifier.cursorForHorizontalResize(isHorizontal: Boolean): Modifier =
+    pointerHoverIcon(PointerIcon(Cursor(if (isHorizontal) Cursor.E_RESIZE_CURSOR else Cursor.S_RESIZE_CURSOR)))
 
 @Composable
 private fun DesktopSplitPaneSeparator(
@@ -90,4 +80,3 @@ internal actual fun defaultSplitter(
         DesktopHandle(isHorizontal, splitPaneState)
     }
 )
-
