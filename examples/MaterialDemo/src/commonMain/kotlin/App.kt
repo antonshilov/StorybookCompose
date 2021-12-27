@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.antonshilov.storybook.model.Decorator
+import com.antonshilov.storybook.model.Storybook
 import com.antonshilov.storybook.model.controls.BooleanControl.Companion.rememberBooleanControl
 import com.antonshilov.storybook.model.controls.ColorControl.Companion.rememberColorControl
 import com.antonshilov.storybook.model.controls.StringControl.Companion.rememberStringControl
@@ -49,10 +50,11 @@ import com.antonshilov.storybook.model.storybook
 import com.antonshilov.storybook.ui.Storybook
 
 @Composable
-fun App(decorators: List<Decorator> = emptyList()) {
+fun App(decorators: List<Decorator> = emptyList(), extension: Storybook.() -> Unit = {}) {
     MaterialTheme {
         Storybook(storyBook.apply {
             this.decorators = decorators
+            extension()
         })
 
     }

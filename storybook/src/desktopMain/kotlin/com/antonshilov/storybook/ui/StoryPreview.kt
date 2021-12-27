@@ -24,9 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.antonshilov.storybook.model.ControlType
 import com.antonshilov.storybook.model.Decorator
 import com.antonshilov.storybook.model.Story
-import com.antonshilov.storybook.model.controls.BooleanControl
-import com.antonshilov.storybook.model.controls.ColorControl
-import com.antonshilov.storybook.model.controls.StringControl
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
@@ -74,11 +71,7 @@ fun ActionList(actions: List<String>) {
 private fun Controls(controls: List<ControlType>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         items(controls) {
-            when (it) {
-                is StringControl -> it.ui()
-                is BooleanControl -> it.ui()
-                is ColorControl -> it.ui()
-            }
+            it.ui()
         }
     }
 }
